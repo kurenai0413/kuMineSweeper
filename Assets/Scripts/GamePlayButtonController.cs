@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GamePlayButtonController : MonoBehaviour {
 
-    public void ResetGame()
+    public void RestGame()
     {
         Application.LoadLevel(Application.loadedLevelName); // 上一個load過的levelname
     }
