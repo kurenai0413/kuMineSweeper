@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GamePlayButtonController : MonoBehaviour {
 
+    public void ResetGame()
+    {
+        Application.LoadLevel(Application.loadedLevelName); // 上一個load過的levelname
+    }
 	public void backtoMainMenu()
     {
         Application.LoadLevel("MineSweeper");
