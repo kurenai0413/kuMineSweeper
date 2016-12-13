@@ -14,6 +14,11 @@ public class MineField : MonoBehaviour {
     [SerializeField]
     private Sprite mineImage;
 
+    void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
+
 	// Use this for initialization
 	void Start ()
     {
@@ -35,7 +40,52 @@ public class MineField : MonoBehaviour {
 
     public bool IsClicked()
     {
-        return true;
-        //return sr.sprite.texture.name == "Hidden Element"
+        return sr.sprite.texture.name == "Hidden Element";
+    }
+
+    void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            //Debug.Log("Right mouse");
+            if (sr.sprite != images[9])
+            {
+                sr.sprite = images[9];
+                if (MatrixGrid.IsGameIsFinished())
+                {
+                    print("You Win!");
+                    GamePlayButtonController.Instance.ShowWin();
+                }
+            }
+            else if (sr.sprite == images[9])
+            {
+                sr.sprite = images[10];
+            }
+        }
+    }
+
+    void OnMouseDown()
+    {
+        if(sr.sprite != images[9])
+        {
+            if (isMine)
+            {
+                MatrixGrid.ShowAllMines();
+                print("Game Over!!");
+            }
+            else
+            {
+                string[] index = gameObject.name.Split('-');
+                int x = int.Parse(index[0]);
+                int y = int.Parse(index[1]);
+                ShowNearMinesCount(MatrixGrid.NearMines(x, y));
+                MatrixGrid.InvestigateMines(x, y, new bool[GameManager.Instance.rows, GameManager.Instance.columns]);
+                if (MatrixGrid.IsGameIsFinished())
+                {
+                    print("You Win!");
+                    GamePlayButtonController.Instance.ShowWin();
+                }
+            }
+        }
     }
 }

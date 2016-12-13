@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour {
     private int mediumLevelMinesCount = 20;
     private int hardLevelMinesCount = 30;
 
-    private int minesCount;
+    [HideInInspector]
+    public int minesCount;
 
     private void Awake()
     {
@@ -55,10 +56,10 @@ public class GameManager : MonoBehaviour {
         minesCount = 0;
         level = Level.Medium;
 
-        OnLevelWasLoaded();
+        //OnLevelWasLoaded();
     }
 	
-    void OnLevelWasLoaded()
+    public void OnLevelWasLoaded()
     {
         if (Application.loadedLevelName == "GamePlay")
         {
@@ -79,9 +80,43 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            minesCount = 0;
-             
+            minesCount = 0;       
         }
+    }
+
+    public bool CanBeMine()
+    {
+        switch(level)
+        {
+            case Level.Easy:
+                if (minesCount < easyLevelMinesCount)
+                    return true;
+                else
+                    return false;
+                break;
+
+            case Level.Medium:
+                if (minesCount < mediumLevelMinesCount)
+                    return true;
+                else
+                    return false;
+                break;
+
+            case Level.Hard:
+                if (minesCount < hardLevelMinesCount)
+                    return true;
+                else
+                    return false;
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+
+    public void IncrementMineInGame()
+    {
+        minesCount++;
     }
 
 }//GameManager
