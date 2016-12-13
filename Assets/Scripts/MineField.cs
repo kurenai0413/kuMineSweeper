@@ -23,6 +23,13 @@ public class MineField : MonoBehaviour {
 	void Start ()
     {
         isMine = Random.value < 0.15f;
+        if (isMine)
+        {
+            if (GameManager.Instance.CanBeMine())
+                GameManager.Instance.IncrementMineInGame();
+            else
+                isMine = false;
+        }
     }
 
     public void ShowMine()
